@@ -63,7 +63,6 @@
  // 点击取消按钮后调用。
  - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
  {
- NSLog(@"%s", __PRETTY_FUNCTION__);
  }*/
 
 
@@ -84,7 +83,6 @@
     
     cell.textLabel.text = [[dataSource objectAtIndex:indexPath.row] allKeys][0];
     cell.detailTextLabel.text = [[dataSource objectAtIndex:indexPath.row] allValues][0];
-    NSLog(@"%@", [[dataSource objectAtIndex:indexPath.row] allValues][0]);
     return cell;
 }
 
@@ -96,7 +94,7 @@
     NSString *firstName     = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
     NSString *middleName    = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonMiddleNameProperty);
     NSString *nicName       = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonNicknameProperty);
-    NSString *companyName     = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
+    NSString *companyName   = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
     
     if (lastName) {
         [dataSource addObject:@{@"姓氏":lastName}];
