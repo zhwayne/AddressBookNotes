@@ -127,7 +127,7 @@
             ABMultiValueCopyValueAtIndex(phoneNumbers, i);
             NSString *phoneNumberLabel = (__bridge_transfer NSString*)
             ABMultiValueCopyLabelAtIndex(phoneNumbers, i);
-            [dataSource addObject:@{phoneNumberLabel:companyName ?: phoneNumber}];
+            [dataSource addObject:@{phoneNumberLabel:phoneNumber}];
         }
     }
     
