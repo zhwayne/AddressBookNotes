@@ -47,10 +47,8 @@
 // 点击联系人以后调用，调用完成以后页面 dismiss
 - (void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person
 {
-    [dataSource removeAllObjects];
     [self handlePersion:person];
     [_tableView reloadData];
-    
 }
 
 /*
@@ -89,12 +87,14 @@
 #pragma mark -
 - (void)handlePersion:(ABRecordRef)person
 {
+    [dataSource removeAllObjects];
+    
     // 姓氏，名字，中间名，昵称，公司
-    NSString *lastName      = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-    NSString *firstName     = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-    NSString *middleName    = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonMiddleNameProperty);
-    NSString *nicName       = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonNicknameProperty);
-    NSString *companyName   = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
+    NSString *lastName    = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+    NSString *firstName   = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+    NSString *middleName  = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonMiddleNameProperty);
+    NSString *nicName     = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonNicknameProperty);
+    NSString *companyName = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonOrganizationProperty);
     
     if (lastName) {
         [dataSource addObject:@{@"姓氏":lastName}];
@@ -121,14 +121,13 @@
     CFIndex count = ABMultiValueGetCount(phoneNumbers);
     if (count > 0) {
         for (int i = 0; i < count; ++i) {
-            NSString *phoneNumber = (__bridge_transfer NSString*)
-            ABMultiValueCopyValueAtIndex(phoneNumbers, i);
-            NSString *phoneNumberLabel = (__bridge_transfer NSString*)
-            ABMultiValueCopyLabelAtIndex(phoneNumbers, i);
+            NSString *phoneNumber = (__bridge_transfer NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, i);
+            NSString *phoneNumberLabel = (__bridge_transfer NSString*)ABMultiValueCopyLabelAtIndex(phoneNumbers, i);
             [dataSource addObject:@{phoneNumberLabel:phoneNumber}];
         }
     }
-    
+    CFRelease(phoneNumbers);
+
     // 其他
     NSString *email = (__bridge_transfer NSString *)ABRecordCopyValue(person, kABPersonEmailProperty);
     if (email) {
